@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Guru Sai Tarun — Angular Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: #f5f4f0; color: #1a1a1a; line-height: 1.6; }
+:root {
+  --white: #ffffff;
+  --bg: #f5f4f0;
+  --bg2: #eeecea;
+  --border: #e0ddd6;
+  --border2: #c8c4bb;
+  --text: #1a1a1a;
+  --muted: #6b6860;
+  --accent: #1d3557;
+  --accent2: #2e5d8e;
+  --accent-light: #e8eef5;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(245,244,240,0.97);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  height: 64px; padding: 0 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-brand { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--accent); }
+.nav-links { display: flex; gap: 36px; align-items: center; }
+.nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--accent); }
+.nav-cta { background: var(--accent) !important; color: white !important; padding: 8px 20px; border-radius: 4px; font-size: 12px !important; }
+.nav-cta:hover { background: var(--accent2) !important; color: white !important; }
+
+/* HERO */
+#hero {
+  padding-top: 64px; min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 400px;
+  max-width: 1160px; margin: 0 auto;
+  align-items: center; gap: 80px;
+  padding-left: 60px; padding-right: 60px;
+}
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; font-weight: 500; color: var(--accent2);
+  text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 20px;
+}
+.hero-eyebrow::before { content: ''; width: 28px; height: 1.5px; background: var(--accent2); }
+.hero-name { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 10px; }
+.hero-role { font-size: 1rem; color: var(--muted); margin-bottom: 28px; }
+.hero-desc { font-size: 15px; color: var(--muted); line-height: 1.85; max-width: 480px; margin-bottom: 40px; }
+.hero-desc strong { color: var(--text); font-weight: 500; }
+.hero-actions { display: flex; gap: 14px; }
+.btn-solid { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; background: var(--accent); color: white; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; transition: background 0.2s; }
+.btn-solid:hover { background: var(--accent2); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; background: transparent; color: var(--accent); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; border-radius: 4px; border: 1.5px solid var(--accent); cursor: pointer; transition: all 0.2s; }
+.btn-ghost:hover { background: var(--accent); color: white; }
+
+/* Hero Card */
+.hero-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 36px; }
+.hc-name { font-family: var(--serif); font-size: 1.35rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.hc-sub { font-size: 13px; color: var(--muted); padding-bottom: 24px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+.hc-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding-bottom: 24px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+.hc-num { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--accent); line-height: 1; }
+.hc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 4px; }
+.hc-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.hc-tag { font-size: 11px; font-weight: 500; background: var(--accent-light); color: var(--accent2); padding: 5px 12px; border-radius: 3px; }
+.hc-avail { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #2e7d32; font-weight: 500; }
+.hc-avail::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #4caf50; flex-shrink: 0; }
+
+/* SECTION SHARED */
+.sec { max-width: 1160px; margin: 0 auto; padding: 90px 60px; }
+.sec-label { display: flex; align-items: center; gap: 14px; font-size: 11px; font-weight: 600; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 12px; }
+.sec-label::before { content: ''; width: 24px; height: 1.5px; background: var(--accent2); }
+.sec-title { font-family: var(--serif); font-size: 2.1rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; margin-bottom: 48px; }
+
+/* ABOUT */
+#about { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.about-text { font-size: 15px; color: var(--muted); line-height: 1.85; }
+.about-text p { margin-bottom: 16px; }
+.about-text strong { color: var(--text); font-weight: 500; }
+.info-table { width: 100%; }
+.info-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.info-row:first-child { border-top: 1px solid var(--border); }
+.info-k { color: var(--muted); }
+.info-v { color: var(--text); font-weight: 500; text-align: right; }
+
+/* EXPERIENCE */
+#experience { background: var(--bg); }
+.exp-block { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.exp-top { padding: 32px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+.exp-co { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: var(--text); }
+.exp-rt { font-size: 14px; color: var(--accent2); font-weight: 500; margin-top: 4px; }
+.exp-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.exp-badge { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; background: var(--accent-light); color: var(--accent); padding: 6px 14px; border-radius: 4px; }
+.exp-date { font-size: 12px; color: var(--muted); }
+.exp-body { padding: 32px 40px; }
+.exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.exp-item { display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--muted); line-height: 1.6; }
+.exp-item:nth-last-child(-n+2) { border-bottom: none; }
+.exp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; }
+.exp-item strong { color: var(--text); font-weight: 500; }
+
+/* SKILLS */
+#skills { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.skill-cell { background: var(--white); padding: 28px 30px; }
+.skill-cell-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent2); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 12px; background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 5px 13px; border-radius: 3px; }
+.pill.hi { background: var(--accent-light); color: var(--accent); border-color: #c5d5e8; font-weight: 500; }
+
+/* PROJECTS */
+#projects { background: var(--bg); }
+.proj-list { display: flex; flex-direction: column; gap: 20px; }
+.proj-row { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 36px 40px; display: grid; grid-template-columns: 190px 1fr 200px; gap: 48px; align-items: start; transition: border-color 0.2s; }
+.proj-row:hover { border-color: var(--border2); }
+.proj-num { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
+.proj-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: var(--text); line-height: 1.25; margin-bottom: 14px; }
+.proj-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--accent2); text-decoration: none; transition: color 0.2s; }
+.proj-link:hover { color: var(--accent); }
+.proj-desc { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 18px; }
+.proj-feats { display: flex; flex-direction: column; gap: 7px; }
+.proj-feat { display: flex; gap: 10px; font-size: 13px; color: var(--muted); }
+.proj-feat::before { content: '—'; color: var(--accent2); flex-shrink: 0; }
+
+/* EDUCATION */
+#education { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.edu-list {}
+.edu-row { display: grid; grid-template-columns: 110px 1fr auto; align-items: center; gap: 48px; padding: 26px 0; border-bottom: 1px solid var(--border); }
+.edu-row:first-child { border-top: 1px solid var(--border); }
+.edu-yr { font-size: 13px; font-weight: 600; color: var(--accent2); }
+.edu-deg { font-weight: 600; font-size: 15px; color: var(--text); margin-bottom: 4px; }
+.edu-inst { font-size: 13px; color: var(--muted); }
+.edu-gpa { font-size: 13px; font-weight: 600; color: var(--accent); background: var(--accent-light); padding: 6px 16px; border-radius: 4px; white-space: nowrap; }
+
+/* CONTACT */
+#contact { background: var(--accent); }
+#contact .sec-label { color: rgba(255,255,255,0.55); }
+#contact .sec-label::before { background: rgba(255,255,255,0.35); }
+#contact .sec-title { color: white; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.contact-intro { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.85; margin-bottom: 36px; }
+.contact-links { display: flex; flex-direction: column; gap: 12px; }
+.clink { display: flex; align-items: center; gap: 16px; padding: 18px 20px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; text-decoration: none; transition: background 0.2s; }
+.clink:hover { background: rgba(255,255,255,0.14); }
+.clink-icon { width: 38px; height: 38px; border-radius: 6px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.clink-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); display: block; margin-bottom: 2px; }
+.clink-val { font-size: 14px; font-weight: 500; color: white; display: block; }
+.cf { display: flex; flex-direction: column; gap: 14px; }
+.cf-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cf-grp { display: flex; flex-direction: column; gap: 6px; }
+.cf-lbl { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.55); }
+.cf-inp, .cf-ta { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; padding: 12px 16px; color: white; font-family: var(--sans); font-size: 14px; outline: none; transition: border-color 0.2s; resize: none; }
+.cf-inp::placeholder, .cf-ta::placeholder { color: rgba(255,255,255,0.3); }
+.cf-inp:focus, .cf-ta:focus { border-color: rgba(255,255,255,0.45); }
+.cf-ta { height: 120px; }
+.btn-wh { display: flex; align-items: center; justify-content: center; padding: 14px; background: white; color: var(--accent); font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; border: none; border-radius: 4px; cursor: pointer; transition: opacity 0.2s; width: 100%; }
+.btn-wh:hover { opacity: 0.88; }
+
+/* FOOTER */
+footer { background: #111827; padding: 26px 60px; display: flex; align-items: center; justify-content: space-between; }
+.ft-l { font-size: 13px; color: #6b7280; }
+.ft-l span { color: #9ca3af; }
+.ft-r { font-size: 12px; color: #4b5563; }
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+  nav { padding: 0 24px; }
+  .nav-links { gap: 20px; }
+  #hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 40px; }
+  .hero-card { display: none; }
+  .sec { padding: 64px 24px; }
+  .about-grid { grid-template-columns: 1fr; gap: 36px; }
+  .exp-grid { grid-template-columns: 1fr; }
+  .exp-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+  .exp-item:last-child { border-bottom: none; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .proj-row { grid-template-columns: 1fr; gap: 20px; }
+  .edu-row { grid-template-columns: 1fr; gap: 6px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .cf-row2 { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 8px; padding: 22px 24px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Guru Sai Tarun</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div>
+    <div class="hero-eyebrow">Angular UI Developer</div>
+    <h1 class="hero-name">B Guru Sai<br/>Tarun</h1>
+    <p class="hero-role">Frontend Developer &nbsp;·&nbsp; Hyderabad, India</p>
+    <p class="hero-desc">
+      Frontend developer with <strong>4+ years of experience</strong> building modern, user-centric web applications.
+      Proficient in <strong>Angular (v10–18)</strong>, TypeScript, and responsive design — focused on
+      performance, scalability, and clean architecture.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-solid">View Projects</a>
+      <a href="#contact" class="btn-ghost">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="hc-name">B Guru Sai Tarun</div>
+    <div class="hc-sub">UI Developer (Angular) &nbsp;·&nbsp; EXNER TECHNOLOGIES</div>
+    <div class="hc-stats">
+      <div><div class="hc-num">4+</div><div class="hc-label">Years Exp.</div></div>
+      <div><div class="hc-num">v18</div><div class="hc-label">Angular</div></div>
+      <div><div class="hc-num">3</div><div class="hc-label">Projects</div></div>
+      <div><div class="hc-num">Agile</div><div class="hc-label">Methodology</div></div>
+    </div>
+    <div class="hc-tags">
+      <span class="hc-tag">Angular</span><span class="hc-tag">TypeScript</span>
+      <span class="hc-tag">RxJS</span><span class="hc-tag">NgRx</span>
+      <span class="hc-tag">REST APIs</span><span class="hc-tag">Jasmine</span>
+    </div>
+    <div class="hc-avail">Available for opportunities</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec">
+    <div class="sec-label">About Me</div>
+    <h2 class="sec-title">Background &amp; Profile</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a Frontend Developer with over <strong>4 years of hands-on experience</strong> designing and developing modern web applications. Based in Hyderabad, I specialize in Angular-based architectures with a strong focus on building scalable, reusable component libraries and design systems.</p>
+        <p>My work spans <strong>FinTech, HealthTech, and HR platforms</strong> — industries where precision, data integrity, and clean user experience matter most. I'm comfortable owning the full frontend lifecycle: from wireframe to production deployment.</p>
+        <p>I collaborate closely with backend, QA, and UX teams in <strong>Agile/Scrum environments</strong>, contributing to sprint planning, code reviews, and mentoring junior developers. I also leverage modern AI development tools to enhance productivity and code quality.</p>
+      </div>
+      <div>
+        <div class="info-row"><span class="info-k">Full Name</span><span class="info-v">B Guru Sai Tarun</span></div>
+        <div class="info-row"><span class="info-k">Location</span><span class="info-v">Hyderabad, India</span></div>
+        <div class="info-row"><span class="info-k">Current Role</span><span class="info-v">UI Developer (Angular)</span></div>
+        <div class="info-row"><span class="info-k">Company</span><span class="info-v">EXNER TECHNOLOGIES</span></div>
+        <div class="info-row"><span class="info-k">Experience</span><span class="info-v">4+ Years</span></div>
+        <div class="info-row"><span class="info-k">Phone</span><span class="info-v">+91-9390986459</span></div>
+        <div class="info-row"><span class="info-k">Email</span><span class="info-v">gurusaitarun.ui@gmail.com</span></div>
+        <div class="info-row"><span class="info-k">LinkedIn</span><span class="info-v" style="color:var(--accent2);">guru-sai-tarun</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec">
+    <div class="sec-label">Work History</div>
+    <h2 class="sec-title">Professional Experience</h2>
+    <div class="exp-block">
+      <div class="exp-top">
+        <div>
+          <div class="exp-co">EXNER TECHNOLOGIES Pvt Ltd</div>
+          <div class="exp-rt">UI Developer (Angular) &nbsp;·&nbsp; Hyderabad</div>
+        </div>
+        <div class="exp-meta">
+          <span class="exp-badge">Angular v10 – v18</span>
+          <span class="exp-date">February 2022 – Present</span>
+        </div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-grid">
+          <div class="exp-item"><div class="exp-dot"></div><div>Developed and maintained <strong>responsive web applications</strong> using Angular, TypeScript, ES6+, HTML5, SCSS, Bootstrap 4/5, and Angular Material.</div></div>
+          <div class="exp-item"><div class="exp-dot"></div><div>Designed and implemented a <strong>centralized Design System</strong> with reusable components — buttons, tables, modals, and charts — using RxJS and Angular CLI.</div></div>
+          <div class="exp-item"><div class="exp-dot"></div><div>Integrated <strong>RESTful APIs</strong> with efficient state management using RxJS Observables and Angular Services.</div></div>
+          <div class="exp-item"><div class="exp-dot"></div><div>Participated in all <strong>Agile/Scrum ceremonies</strong> — Sprint Planning, Stand-ups, Backlog Grooming, and Retrospectives via JIRA.</div></div>
+          <div class="exp-item"><div class="exp-dot"></div><div>Collaborated via <strong>Bitbucket</strong> for version control, pull requests, code reviews, and branch management.</div></div>
+          <div class="exp-item"><div class="exp-dot"></div><div><strong>Mentored junior developers</strong> through pair programming, knowledge-sharing, and constructive code review feedback.</div></div>
+          <div class="exp-item"><div class="exp-dot"></div><div>Implemented <strong>lazy loading, route guards, and module optimization</strong> to improve performance and reduce load times.</div></div>
+          <div class="exp-item"><div class="exp-dot"></div><div>Wrote unit tests with <strong>Jasmine and Karma</strong> to improve code coverage and application stability.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec">
+    <div class="sec-label">Technical Skills</div>
+    <h2 class="sec-title">Skills &amp; Technologies</h2>
+    <div class="skills-grid">
+      <div class="skill-cell">
+        <div class="skill-cell-title">Core Frontend</div>
+        <div class="pills">
+          <span class="pill hi">Angular v10–18</span><span class="pill hi">TypeScript</span>
+          <span class="pill">JavaScript ES6+</span><span class="pill">HTML5</span>
+          <span class="pill">CSS3 / SCSS</span><span class="pill">Bootstrap 4/5</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-title">Frameworks &amp; Libraries</div>
+        <div class="pills">
+          <span class="pill hi">RxJS</span><span class="pill hi">NgRx</span>
+          <span class="pill">Angular Material</span><span class="pill">NG2 Charts</span>
+          <span class="pill">Angular HTTPClient</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-title">Testing &amp; Debugging</div>
+        <div class="pills">
+          <span class="pill hi">Jasmine</span><span class="pill hi">Karma</span>
+          <span class="pill">Postman</span><span class="pill">Chrome DevTools</span>
+          <span class="pill">Hasura Console</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-title">Design &amp; Collaboration</div>
+        <div class="pills">
+          <span class="pill">Figma</span><span class="pill">InVision</span>
+          <span class="pill">JIRA</span><span class="pill">Bitbucket</span>
+          <span class="pill">GitHub</span><span class="pill">GitLab</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-title">IDEs &amp; Tools</div>
+        <div class="pills">
+          <span class="pill hi">VS Code</span><span class="pill">WebStorm</span>
+          <span class="pill">Cursor AI</span><span class="pill">StackBlitz</span><span class="pill">JSFiddle</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-title">AI &amp; Methodology</div>
+        <div class="pills">
+          <span class="pill hi">GitHub Copilot</span><span class="pill hi">Claude AI</span>
+          <span class="pill">Lovable AI</span><span class="pill">Agile / Scrum</span>
+          <span class="pill">MVC / MVVM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec">
+    <div class="sec-label">Work Portfolio</div>
+    <h2 class="sec-title">Projects</h2>
+    <div class="proj-list">
+
+      <div class="proj-row">
+        <div>
+          <div class="proj-num">Project 01</div>
+          <div class="proj-name">Finastra Syndicate Lending</div>
+          <a href="https://www.finastra.com/" target="_blank" class="proj-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            finastra.com
+          </a>
+        </div>
+        <div>
+          <p class="proj-desc">A financial services platform enabling collaborative loans where multiple lenders pool funds for large-scale institutional and corporate financing. Designed to streamline syndication, ensure transparency, and provide tailored lending solutions.</p>
+          <div class="proj-feats">
+            <div class="proj-feat">Multi-lender fund pooling for large-scale loans</div>
+            <div class="proj-feat">Distributed financial risk across participating institutions</div>
+            <div class="proj-feat">Streamlined loan syndication &amp; management process</div>
+            <div class="proj-feat">Full transparency and coordination among all lenders</div>
+          </div>
+        </div>
+        <div class="pills" style="flex-direction:column;align-items:flex-start;">
+          <span class="pill hi" style="margin-bottom:6px;">Angular</span>
+          <span class="pill hi" style="margin-bottom:6px;">RxJS</span>
+          <span class="pill" style="margin-bottom:6px;">REST APIs</span>
+          <span class="pill" style="margin-bottom:6px;">TypeScript</span>
+          <span class="pill">FinTech</span>
+        </div>
+      </div>
+
+      <div class="proj-row">
+        <div>
+          <div class="proj-num">Project 02</div>
+          <div class="proj-name">Pharma Connect</div>
+          <a href="https://www.telus.com/en/health/health-professionals/pharmacies/add-ons/pharmaconnect" target="_blank" class="proj-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            telus.com / pharmaconnect
+          </a>
+        </div>
+        <div>
+          <p class="proj-desc">An advanced online platform streamlining the pharmaceutical supply chain by connecting pharmacies, distributors, and manufacturers on a unified interface with real-time tracking and analytics.</p>
+          <div class="proj-feats">
+            <div class="proj-feat">Unified platform for pharmacies, distributors &amp; manufacturers</div>
+            <div class="proj-feat">Real-time inventory management &amp; medicine tracking</div>
+            <div class="proj-feat">Automated restocking alerts &amp; price comparison</div>
+            <div class="proj-feat">Supply chain analytics &amp; cost optimization insights</div>
+          </div>
+        </div>
+        <div class="pills" style="flex-direction:column;align-items:flex-start;">
+          <span class="pill hi" style="margin-bottom:6px;">Angular</span>
+          <span class="pill hi" style="margin-bottom:6px;">NgRx</span>
+          <span class="pill" style="margin-bottom:6px;">NG2 Charts</span>
+          <span class="pill" style="margin-bottom:6px;">Bootstrap</span>
+          <span class="pill">HealthTech</span>
+        </div>
+      </div>
+
+      <div class="proj-row">
+        <div>
+          <div class="proj-num">Project 03</div>
+          <div class="proj-name">SumHR HRIS Platform</div>
+          <a href="https://www.sumhr.com/" target="_blank" class="proj-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            sumhr.com
+          </a>
+        </div>
+        <div>
+          <p class="proj-desc">A comprehensive HRIS web application streamlining payroll and timesheet management for employees and managers. Automates salary calculations, deductions, and approvals while improving HR process accuracy.</p>
+          <div class="proj-feats">
+            <div class="proj-feat">Work hour logging, timesheet submission &amp; approvals</div>
+            <div class="proj-feat">Automated salary calculations, deductions &amp; payments</div>
+            <div class="proj-feat">Manager approval workflows &amp; employee records</div>
+            <div class="proj-feat">Seamless HR process automation &amp; reporting</div>
+          </div>
+        </div>
+        <div class="pills" style="flex-direction:column;align-items:flex-start;">
+          <span class="pill hi" style="margin-bottom:6px;">Angular</span>
+          <span class="pill hi" style="margin-bottom:6px;">Angular Material</span>
+          <span class="pill" style="margin-bottom:6px;">TypeScript</span>
+          <span class="pill" style="margin-bottom:6px;">RxJS</span>
+          <span class="pill">HR Tech</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sec">
+    <div class="sec-label">Academic Background</div>
+    <h2 class="sec-title">Education</h2>
+    <div class="edu-list">
+      <div class="edu-row">
+        <div class="edu-yr">2022</div>
+        <div><div class="edu-deg">Bachelor's Degree — Graduation</div><div class="edu-inst">Sree Vidyanikethan Institute of Management</div></div>
+        <div class="edu-gpa">GPA 6.0</div>
+      </div>
+      <div class="edu-row">
+        <div class="edu-yr">2019</div>
+        <div><div class="edu-deg">Intermediate — 12th Standard</div><div class="edu-inst">Narayana Junior College</div></div>
+        <div class="edu-gpa">GPA 6.94</div>
+      </div>
+      <div class="edu-row">
+        <div class="edu-yr">2017</div>
+        <div><div class="edu-deg">SSC — 10th Standard</div><div class="edu-inst">Narayana High School</div></div>
+        <div class="edu-gpa">GPA 9.0</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec">
+    <div class="sec-label">Get In Touch</div>
+    <h2 class="sec-title">Contact Me</h2>
+    <div class="contact-grid">
+      <div>
+        <p class="contact-intro">I'm open to full-time roles, freelance engagements, and interesting collaborations. If you're looking for a dedicated Angular developer who takes ownership of frontend quality, feel free to reach out.</p>
+        <div class="contact-links">
+          <a href="mailto:gurusaitarun.ui@gmail.com" class="clink">
+            <div class="clink-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div><span class="clink-lbl">Email</span><span class="clink-val">gurusaitarun.ui@gmail.com</span></div>
+          </a>
+          <a href="tel:+919390986459" class="clink">
+            <div class="clink-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.12 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.14 7.86a16 16 0 006 6l1.22-1.22a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg></div>
+            <div><span class="clink-lbl">Phone</span><span class="clink-val">+91-9390986459</span></div>
+          </a>
+          <a href="https://www.linkedin.com/in/guru-sai-tarun" target="_blank" class="clink">
+            <div class="clink-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.8"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div>
+            <div><span class="clink-lbl">LinkedIn</span><span class="clink-val">linkedin.com/in/guru-sai-tarun</span></div>
+          </a>
+        </div>
+      </div>
+      <div class="cf">
+        <div class="cf-row2">
+          <div class="cf-grp"><label class="cf-lbl">Your Name</label><input class="cf-inp" type="text" placeholder="John Doe"/></div>
+          <div class="cf-grp"><label class="cf-lbl">Email Address</label><input class="cf-inp" type="email" placeholder="john@company.com"/></div>
+        </div>
+        <div class="cf-grp"><label class="cf-lbl">Subject</label><input class="cf-inp" type="text" placeholder="Job opportunity / Project inquiry"/></div>
+        <div class="cf-grp"><label class="cf-lbl">Message</label><textarea class="cf-ta" placeholder="Tell me about your project or opportunity..."></textarea></div>
+        <button class="btn-wh" onclick="alert('Message sent! I\'ll get back to you soon.')">Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-l">© 2025 <span>B Guru Sai Tarun</span>. All rights reserved.</div>
+  <div class="ft-r">Angular · TypeScript · SCSS</div>
+</footer>
+
+</body>
+</html>
